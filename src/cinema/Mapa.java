@@ -14,14 +14,18 @@ public class Mapa {
     public StringBuilder mostrarMapa() {
         StringBuilder mapa = new StringBuilder(
                 "\n\n    1     2     3     4     5     6     7     8     9     10    11    12    13    14\n");
+
         for (Assento[] fileira : mapaAssentos) {
             mapa.append(fileira[0].getFileira() + " ");
+
             for (Assento assento : fileira) {
                 String cor = (assento.getEstadoAssento() == EstadoAssento.BUSY) ? "\u001B[31m" : "\u001B[32m";
                 mapa.append(cor + " " + assento.getEstadoAssento() + " " + "\u001B[0m");
             }
+
             mapa.append(" " + fileira[0].getFileira() + "\n");
         }
+
         mapa.append("    1     2     3     4     5     6     7     8     9     10    11    12    13    14\n"
                 + "\n----------------------------------------------------------------------------------------"
                 + "\n                                         TELA"
@@ -29,30 +33,36 @@ public class Mapa {
         return mapa;
     }
 
-    public boolean verificaAssento(char fileira, int numeroAssento) {
-        if (65 <= fileira && fileira <= 76 && 0 <= (numeroAssento - 1) && (numeroAssento - 1) <= 13) {
-            return true;
-        } else {
-            return false;
-        }
+    public int verificaAssento(char fileira, int numeroAssento) {
+        boolean condicaoFileira = (65 <= fileira && fileira <= 76);
+        boolean condicaoAssento = (0 <= (numeroAssento - 1) && (numeroAssento - 1) <= 13);
 
+        if (condicaoFileira && condicaoAssento) {
+            return (mapaAssentos[fileira - 65][numeroAssento - 1].getEstadoAssento() == EstadoAssento.FREE) ? 1 : 2;
+        } else {
+            return 0;
+        }
     }
 
-    public boolean reservaAssento(char fileira, int numeroAssento) {
-        if (verificaAssento(fileira, numeroAssento)) {
+    public int reservaAssento(char fileira, int numeroAssento) {
+        int verificacao = verificaAssento(fileira, numeroAssento);
+
+        if (verificacao == 1){
             mapaAssentos[fileira - 65][numeroAssento - 1].setEstado(EstadoAssento.BUSY);
-            return true;
+            return 1;
         } else {
-            return false;
+            return (verificacao == 0)?0:2;
         }
     }
 
-    public boolean cancelaReserva(char fileira, int numeroAssento) {
-        if (verificaAssento(fileira, numeroAssento)) {
+    public int cancelaReserva(char fileira, int numeroAssento) {
+        int verificacao = verificaAssento(fileira, numeroAssento);
+
+        if (verificacao == 2){
             mapaAssentos[fileira - 65][numeroAssento - 1].setEstado(EstadoAssento.FREE);
-            return true;
+            return 1;
         } else {
-            return false;
+            return (verificacao == 0)?0:2;
         }
     }
 

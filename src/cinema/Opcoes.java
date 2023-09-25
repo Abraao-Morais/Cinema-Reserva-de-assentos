@@ -21,7 +21,7 @@ public class Opcoes {
         return opcao;
     }
 
-    public boolean reservaAssento(Scanner scanner, Mapa mapa){
+    public String reservaAssento(Scanner scanner, Mapa mapa){
         System.out.print("\n\nRESERVA ASSENTO\n"
                          + "Digite a fileira do assento desejado (em caixa alta): ");
         char fileira = scanner.next().charAt(0);
@@ -29,14 +29,15 @@ public class Opcoes {
         System.out.print("Digite o numero do assento desejado: ");
         int numeroAssento = Integer.parseInt(scanner.next());
 
-        if (mapa.reservaAssento(fileira, numeroAssento)){
-            return true;
+        int reserva = mapa.reservaAssento(fileira, numeroAssento);
+        if (reserva == 1){
+            return "Assento reservado.";
         } else {
-            return false;
+            return (reserva == 0)?"O assento digitado não existe.":"Este assento já está reservado";
         }
     }
 
-    public boolean cancelaReserva(Scanner scanner, Mapa mapa){
+    public String cancelaReserva(Scanner scanner, Mapa mapa){
         System.out.print("\n\nCANCELA RESERVA\n"
                          + "Digite a fileira do assento desejado (em caixa alta): ");
         char fileira = scanner.next().charAt(0);
@@ -44,10 +45,11 @@ public class Opcoes {
         System.out.print("Digite o numero do assento desejado: ");
         int numeroAssento = Integer.parseInt(scanner.next());
 
-        if (mapa.cancelaReserva(fileira, numeroAssento)){
-            return true;
+        int reserva = mapa.cancelaReserva(fileira, numeroAssento);
+        if (reserva == 1){
+            return "Reserva cancelada.";
         } else {
-            return false;
+            return (reserva == 0)?"O assento digitado não existe.":"Não existe resva neste assento";
         }
     }
 }

@@ -9,26 +9,22 @@ public class Main {
     public static void main(String[] args) {
         Mapa mapa = new Mapa();
         Opcoes menu = new Opcoes();
-        Scanner input = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         String limpaTerminal = "\u001B[H\u001B[2J";
         boolean exit = true;
         do {
-            switch (menu.menuPrincipal(input)) {
+            switch (menu.menuPrincipal(scanner)) {
                 case 1: {
                     System.out.println(limpaTerminal + mapa.mostrarMapa());
                     break;
                 }
                 case 2: {
-                    String retornoReserva = (menu.reservaAssento(input, mapa)) ? "Assento reservado."
-                            : "nao foi possivel reservar um assento, tente novamente.";
-                    System.out.println(limpaTerminal + retornoReserva);
+                    System.out.println(limpaTerminal + menu.reservaAssento(scanner, mapa));
                     break;
                 }
                 case 3: {
-                    String retornoCancelamento = (menu.reservaAssento(input, mapa)) ? "Reserva cancelada."
-                            : "nao foi possivel cancelar a reserva, tente novamente.";
-                    System.out.println(limpaTerminal + retornoCancelamento);
+                    System.out.println(limpaTerminal + menu.cancelaReserva(scanner, mapa));
                     break;
                 }
                 case 4: {
@@ -44,7 +40,7 @@ public class Main {
                 }
             }
         } while (exit);
-        input.close();
+        scanner.close();
         System.out.println(limpaTerminal + "Código finalizado");
     }
 }
